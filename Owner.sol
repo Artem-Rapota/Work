@@ -2,7 +2,7 @@ pragma solidity ^0.4.21;
 
 
 contract Owner {
-    address private owner;
+    address internal owner;
     
     function Owner() internal {
         owner = msg.sender;
