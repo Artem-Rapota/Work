@@ -12,7 +12,7 @@ contract BountyProgramTokens is Owner, ERC20Token {
     function CreateBountyProgram(uint256 amountTokens, uint256 tokens, string name) isOwner public {
         require(_totalSuply == 0);
         _totalSuply = amountTokens;
-        _balanceOf[msg.sender] = _totalSuply;
+        _balanceOf[owner] = amountTokens;
         _tokens = tokens;
         _name = name;
     }
@@ -26,7 +26,7 @@ contract BountyProgramTokens is Owner, ERC20Token {
     }
     
     function totalSupply() public constant returns (uint256) {
-        return _totalSuply;
+        return _balanceOf[owner];
     }
     
     function balanceOf(address _addr) constant public returns (uint256) {
@@ -44,14 +44,11 @@ contract BountyProgramTokens is Owner, ERC20Token {
     }
     
     function transferFrom(address _from, address _to, uint256 _value) isOwner returns (bool success) {
-        return false;
     }
     
     function approve(address _spender, uint256 _value) isOwner returns (bool success) {
-        return false;
     }
     
     function allowance(address _owner, address _spender) isOwner constant returns (uint remaining) {
-        return 0;
     }
 }
