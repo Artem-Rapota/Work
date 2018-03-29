@@ -1,7 +1,12 @@
 pragma solidity ^0.4.21;
 import "./Owner.sol";
 
-contract BountyProgramEther is Owner {
+/**
+    This class working with BountyProgramEther.
+    This class is for distributing tokens for BountyHunters.
+    @author Artem Rapota artem.rapota@inveritasoft.com
+ */
+contract BountyProgramEthereum is Owner {
     
     uint256 private _pieceOfEther;
     mapping (address => uint256) private _balanceOf;
@@ -11,9 +16,14 @@ contract BountyProgramEther is Owner {
     string constant private _one = "one";
     string constant private _all = "all";
     
+    function () isOwner payable public {
+        address(this).call.value(msg.value);
+        _balanceOf[owner] = msg.value;
+    }
+    
     function createBountyProgram(uint256 pieceOfEther, string typeOfPay) isOwner payable public returns(bool) {
-        
-        if (_balanceOf[owner] > 0 || pieceOfEther == 0 || msg.value == 0)
+        require(_pieceOfEther == 0);
+        if (pieceOfEther == 0)
         {
             revert();
             
@@ -31,8 +41,6 @@ contract BountyProgramEther is Owner {
             return false;
         }
         
-        address(this).call.value(msg.value);
-        _balanceOf[owner] = msg.value;
         _pieceOfEther = pieceOfEther;
             
         return true;
@@ -40,6 +48,8 @@ contract BountyProgramEther is Owner {
 
     
     function sendEtherToAddress(address addr) isOwner public {
+        require(addr != owner);
+        
         require(
             _balanceOf[owner] > 0 
             && _balanceOf[owner] >= _pieceOfEther
@@ -73,6 +83,7 @@ contract BountyProgramEther is Owner {
     }
     
     function transfer(address _to) isOwner public returns (bool success) {
+        require(_to != owner);
         
         if (_balanceOf[owner] >= _pieceOfEther) {
             _balanceOf[owner] -= _pieceOfEther;

@@ -2,6 +2,11 @@ pragma solidity ^0.4.21;
 import "./Owner.sol";
 import "./ERC20Token.sol";
 
+/**
+    This class working with BountyProgramTokens.
+    This class is for distributing tokens for BountyHunters.
+    @author Artem Rapota artem.rapota@inveritasoft.com
+ */
 contract BountyProgramTokens is Owner, ERC20Token {
     
     uint256 private _tokens;

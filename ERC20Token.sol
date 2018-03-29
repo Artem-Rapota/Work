@@ -1,6 +1,8 @@
 pragma solidity ^0.4.21;
 
-
+/**
+    @author Artem Rapota artem.rapota@inveritasoft.com
+ */
 interface ERC20Token {
     function totalSupply() constant returns (uint256 supply);
     function balanceOf(address _owner) constant returns (uint256 balance);
