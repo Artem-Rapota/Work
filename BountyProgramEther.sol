@@ -21,7 +21,7 @@ contract BountyProgramEthereum is Owner {
         _balanceOf[owner] = msg.value;
     }
     
-    function createBountyProgram(uint256 pieceOfEther, string typeOfPay) isOwner payable public returns(bool) {
+    function createBountyProgram(uint256 pieceOfEther, string typeOfPay) isOwner public returns(bool) {
         require(_pieceOfEther == 0);
         if (pieceOfEther == 0)
         {
@@ -85,7 +85,10 @@ contract BountyProgramEthereum is Owner {
     function transfer(address _to) isOwner public returns (bool success) {
         require(_to != owner);
         
-        if (_balanceOf[owner] >= _pieceOfEther) {
+        if (
+            _balanceOf[owner] >= _pieceOfEther 
+            && keccak256(_typeOfPay) == keccak256(_all)
+        ) {
             _balanceOf[owner] -= _pieceOfEther;
             _balanceOf[_to] += _pieceOfEther;
             
