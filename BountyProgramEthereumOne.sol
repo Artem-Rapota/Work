@@ -1,5 +1,6 @@
 pragma solidity ^0.4.21;
 import "./Owner.sol";
+import "./ERC20Ethereum.sol";
 
 /**
     This class working with BountyProgramEther.
@@ -7,7 +8,7 @@ import "./Owner.sol";
     Send Ethereum one by one Bounty Hunters.
     @author Artem Rapota artem.rapota@inveritasoft.com
  */
-contract BountyProgramEthereumOne is Owner {
+contract BountyProgramEthereumOne is Owner, ERC20Ethereum {
     uint256 private _pieceOfEther;
     
     function BountyProgramEthereumOne(uint256 pieceOfEther) public payable {
@@ -27,6 +28,7 @@ contract BountyProgramEthereumOne is Owner {
         );
         
         addr.transfer(_pieceOfEther);
+        emit Transfer(owner, addr, _pieceOfEther);
     }
     
     function balanceContractEther() public view returns(uint) {

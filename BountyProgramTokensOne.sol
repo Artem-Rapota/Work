@@ -27,7 +27,7 @@ contract BountyProgramTokensOne is Owner, ERC20Token {
         return _TokenName;
     }
     
-    function DestroyContract() isOwner public {
+    function destroyContract() isOwner public {
        selfdestruct(this);
     }
     

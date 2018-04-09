@@ -1,6 +1,7 @@
 pragma solidity ^0.4.21;
 import "./Owner.sol";
 import "./ERC20Token.sol";
+import "./ERC20TokensAll.sol";
 
 /**
     This class working with BountyProgramTokens.
@@ -8,7 +9,7 @@ import "./ERC20Token.sol";
     Send Tokens all at once Bounty Hunters.
     @author Artem Rapota artem.rapota@inveritasoft.com
  */
-contract BountyProgramTokensAll is Owner, ERC20Token {
+contract BountyProgramTokensAll is Owner, ERC20Token, ERC20TokensAll {
     
     uint256 private _tokens;
     string private _tokenName;
@@ -29,7 +30,7 @@ contract BountyProgramTokensAll is Owner, ERC20Token {
         _endDate = endDate;
     }
     
-    function DestroyContract() isOwner public {
+    function destroyContract() isOwner public {
        selfdestruct(this);
     }
     
@@ -57,10 +58,13 @@ contract BountyProgramTokensAll is Owner, ERC20Token {
         return false;
     }
     
-    function sendEtherForAllAddresses(uint256 endDate) isOwner public {
+    function sendTokensForAllAddresses(uint256 endDate) isOwner public returns (bool success) {
         require(endDate >= _endDate);
         require(_balanceOf[owner] == 0);
-        
+
+        emit TransferForAllAdd(endDate, _totalSuply);
         _totalSuply = 0;
+        
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 pragma solidity ^0.4.21;
 import "./Owner.sol";
+import "./ERC20Ethereum.sol";
 
 /**
     This class working with BountyProgramEther.
@@ -7,7 +8,7 @@ import "./Owner.sol";
     Send Ethereum all at once Bounty Hunters.
     @author Artem Rapota artem.rapota@inveritasoft.com
  */
-contract BountyProgramEthereumAll is Owner {
+contract BountyProgramEthereumAll is Owner, ERC20Ethereum {
     
     uint256 private _pieceOfEther;
     uint256 private _endDate;
@@ -29,6 +30,10 @@ contract BountyProgramEthereumAll is Owner {
         selfdestruct(this);
     }
     
+    function balanceContractEther() public view returns(uint) {
+        return address(this).balance;
+    }
+
     function balanceOf(address _addr) constant public returns (uint) {
         return _balanceOf[_addr];
     }
@@ -55,6 +60,8 @@ contract BountyProgramEthereumAll is Owner {
                 allAddress.push(_to);
             }
             
+            emit Transfer(owner, _to, _pieceOfEther);
+
             return true;
         }
         
@@ -79,5 +86,7 @@ contract BountyProgramEthereumAll is Owner {
             allAddress[i].transfer(_balanceOf[allAddress[i]]);
             delete _balanceOf[allAddress[i]];
         }
+
+        emit TransferEtherForAllAddresses(owner, endDate);
     }
 }
